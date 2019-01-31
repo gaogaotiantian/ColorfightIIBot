@@ -1,3 +1,5 @@
+from .constants import GAME_WIDTH, GAME_HEIGHT
+
 class Direction:
     North = (0, -1)
     South = (0, 1)
@@ -41,6 +43,9 @@ class Position:
 
     def __repr__(self):
         return "Position({}, {})".format(self.x, self.y)
+
+    def is_valid(self):
+        return 0 <= self.x < GAME_WIDTH and 0 <= self.y < GAME_HEIGHT
 
     def directional_offset(self, direction):
         return self + Position(*direction)

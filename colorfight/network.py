@@ -4,23 +4,28 @@ import threading
 import queue
 import json
 
-async def game_info(ws_url, queue):
+async def game_info(ws_url, queue, loop = None):
     print("Info Channel Started")
-    async with websockets.connect(ws_url) as ws:
-        while True:
-            info = await ws.recv()
-            queue.put(json.loads(info))
-            await asyncio.sleep(0.1)
+    async with websockets.connect(ws_url, max_size = None, ping_interval = None, loop = loop) as ws:
+        try:
+            async for info in ws:
+                queue.put(json.loads(info))
+                await asyncio.sleep(0.1)
+        except Exception as e:
+            print(e)
+            #break
 
 async def action(ws_url, queue, resp_queue):
     print("Action Channel Started")
     async with websockets.connect(ws_url) as ws:
         while True:
-            while not queue.empty():
-                action = queue.get()
+            try:
+                action = queue.get(block = False)
                 await ws.send(json.dumps(action))
                 result = await ws.recv()
                 resp_queue.put(json.loads(result))
+            except Exception as e:
+                pass
 
             await asyncio.sleep(0.05)
 
@@ -41,7 +46,7 @@ class Network(threading.Thread):
         
     def run(self):
         print("Network started!")
-        asyncio.gather(game_info(self.url + '/game_channel', self.info_queue), action(self.url + '/action_channel', self.action_queue, self.action_resp_queue), loop = self.loop)
+        asyncio.gather(game_info(self.url + '/game_channel', self.info_queue, self.loop), action(self.url + '/action_channel', self.action_queue, self.action_resp_queue), loop = self.loop)
         self.loop.run_forever()
 
 if __name__ == '__main__':

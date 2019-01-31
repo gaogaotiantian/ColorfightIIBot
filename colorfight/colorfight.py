@@ -5,6 +5,7 @@ from .game_map import GameMap
 from .user import User
 from .position import Position
 from .network import Network
+from .constants import update_globals, CMD_ATTACK
 
 class Colorfight:
     def __init__(self):
@@ -40,18 +41,19 @@ class Colorfight:
             for pos_lst in info['users'][uid]['cells']:
                 pos = Position(pos_lst[0], pos_lst[1])
                 user.cells[pos] = self.game_map[pos]
-            self.users[uid] = user
+            self.users[int(uid)] = user
         if self.uid in self.users:
             self.me = self.users[self.uid]
+        else:
+            print("Me:", self.uid, self.users.keys())
 
     def _update_info(self, info):
         for field in info:
             setattr(self, field, info[field])
+        update_globals(info)
 
     def update_turn(self):
-        while self.info_queue.empty():
-            # Wait until new info
-            pass
+        info = self.info_queue.get()
         while not self.info_queue.empty():
             info = self.info_queue.get()
         self._update(info)
@@ -61,12 +63,22 @@ class Colorfight:
         time.sleep(0.1)
         try:
             result = self.action_resp_queue.get(timeout = 2)
-            self.uid = result['uid']
+            if "err_msg" in result:
+                print(result["err_msg"])
+                return False
+            else:
+                self.uid = int(result['uid'])
+                return True
         except Exception as e:
             raise Exception("Failed to register to the game!")
 
+    def attack(self, position, energy):
+        return "{} {} {} {}".format(CMD_ATTACK, position.x, position.y, energy)
             
-
-        
+    def send_cmd(self, cmd_list):
+        msg = {"action": "command", "cmd_list": cmd_list}
+        self.action_queue.put(msg)
+        result = self.action_resp_queue.get()
+        print(result)
 
 
