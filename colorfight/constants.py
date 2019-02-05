@@ -11,4 +11,7 @@ def update_globals(info):
     GAME_MAX_TURN = info['max_turn']
 
 CMD_ATTACK = 'a'
+CMD_BUILD  = 'b'
 
+BLD_GOLD_MINE = 'g'
+BLD_ENERGY_WELL = 'e'

@@ -73,7 +73,22 @@ class Colorfight:
             raise Exception("Failed to register to the game!")
 
     def attack(self, position, energy):
+        '''
+            /param position: a Position object for the attacked position
+            /param energy: the energy the user uses
+
+            /return: a string representing a command
+        '''
         return "{} {} {} {}".format(CMD_ATTACK, position.x, position.y, energy)
+
+    def build(self, position, building):
+        '''
+            /param position: a Position object for the build position
+            /param building: a letter representing the building
+
+            /return: a string representing a command
+        '''
+        return "{} {} {} {}".format(CMD_BUILD, position.x, position.y, building)
             
     def send_cmd(self, cmd_list):
         msg = {"action": "command", "cmd_list": cmd_list}

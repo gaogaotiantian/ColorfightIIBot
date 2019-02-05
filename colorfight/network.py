@@ -32,9 +32,18 @@ async def action(ws_url, queue, resp_queue):
 class Network(threading.Thread):
     host_url = "ws://localhost:5000/"
     def __init__(self, info_queue, action_queue, action_resp_queue, url = None):
+        def parse_url(url):
+            '''
+                change the possible url to correct form
+            '''
+            if url.startswith('http'):
+                return url.replace('http', 'ws')
+            elif not url.startswith('ws'):
+                return 'ws://' + url
+            return url
         threading.Thread.__init__(self)
         if url:
-            self.url = url
+            self.url = parse_url(url)
         else:
             self.url = host_url
         asyncio.set_event_loop(asyncio.new_event_loop())

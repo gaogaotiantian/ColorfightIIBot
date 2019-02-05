@@ -1,21 +1,25 @@
 from .position import Position
+from .building import Empty, Home, EnergyWell, GoldMine, str_to_build_class
 import random
 
 class MapCell:
     def __init__(self, position):
         self.position = position
         self.is_home  = False
-        self.building = "empty"
-        self.gold = random.randint(1, 10)
-        self.energy = random.randint(1, 10)
+        self.building = Empty()
+        self.gold = 0
+        self.energy = 0
         self.owner = 0
-        self.natural_cost = random.randint(1, 100)
+        self.natural_cost = 0
         self.force_field  = 0
 
     def _update_info(self, info):
         for field in info:
             if field == 'position':
                 self.position = Position(info[field][0], info[field][1])
+            elif field == 'building':
+                bld_cls = str_to_build_class(info[field])
+                self.building = bld_cls()
             else:
                 setattr(self, field, info[field])
 
