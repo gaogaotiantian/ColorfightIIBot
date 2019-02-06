@@ -13,7 +13,7 @@ if game.register('ExampleAI', str(int(time.time()))):
         if game.me == None:
             continue
         for cell in game.me.cells.values():
-            for pos in cell.position.valid_surrounding_cardinals():
+            for pos in cell.position.get_surrounding_cardinals():
                 c = game.game_map[pos]
                 if c.attack_cost < game.me.energy and c.owner != game.uid \
                         and c.position not in my_attack_list:

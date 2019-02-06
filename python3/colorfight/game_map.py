@@ -11,6 +11,8 @@ class MapCell:
         self.energy = 0
         self.owner = 0
         self.natural_cost = 0
+        self.natural_gold = 0
+        self.natural_energy = 0
         self.force_field  = 0
 
     def _update_info(self, info):
