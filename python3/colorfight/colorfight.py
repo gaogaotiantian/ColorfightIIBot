@@ -12,6 +12,7 @@ class Colorfight:
         self.uid = 0
         self.turn = 0
         self.max_turn = 0
+        self.round_time = 0
         self.me = None
         self.users = {}
         self.error = {}

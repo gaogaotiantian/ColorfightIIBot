@@ -20,6 +20,10 @@ The ```Colorfight``` object holds all the useful information for the game.
 
     > Turn number that this game will last.
 
+* ```round_time```
+
+    > The time the player have to take actions between each round.
+
 * ```me```
 
     > ```User``` object for you. Invalid before join the game.
