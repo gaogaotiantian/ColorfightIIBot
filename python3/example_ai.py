@@ -4,7 +4,7 @@ import random
 from colorfight.constants import BLD_GOLD_MINE, BLD_ENERGY_WELL
 
 game = Colorfight()
-game.connect(url = 'https://colorfightii.herokuapp.com')
+game.connect(url = 'https://colorfightii.herokuapp.com/gameroom/public')
 if game.register('ExampleAI', str(int(time.time()))):
     while True:
         cmd_list = []
