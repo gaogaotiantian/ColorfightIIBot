@@ -67,7 +67,7 @@ The ```Colorfight``` object holds all the useful information for the game.
     > Returns a ```string``` for attacking a certain position. ```position``` 
       should be a ```Position``` object and energy should be an integer.
 
-      ** This string is a command that you should put in your command list
+    > ** This string is a command that you should put in your command list
       and send with ```send_cmd``` **
 
 * ```.build(position, building)```
@@ -76,7 +76,7 @@ The ```Colorfight``` object holds all the useful information for the game.
       ```position``` should be a ```Position``` object and building should be
       a character(Global const variable) representing the building type.
 
-      ** This string is a command that you should put in your command list
+    > ** This string is a command that you should put in your command list
       and send with ```send_cmd``` **
 
 * ```.upgrade(position)```
@@ -84,7 +84,7 @@ The ```Colorfight``` object holds all the useful information for the game.
     > Returns a ```string``` for upgrade the build on ```position```. 
       ```position``` should be a ```Position``` object.
 
-      ** This string is a command that you should put in your command list
+    > ** This string is a command that you should put in your command list
       and send with ```send_cmd``` **
 
 * ```.send_cmd(cmd_list)```
