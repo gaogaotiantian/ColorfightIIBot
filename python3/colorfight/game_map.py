@@ -1,5 +1,6 @@
 from .position import Position
 from .building import Empty, Home, EnergyWell, GoldMine, str_to_build_class
+from .constants import GAME_MAX_LEVEL
 import random
 
 class MapCell:
@@ -14,6 +15,21 @@ class MapCell:
         self.natural_gold = 0
         self.natural_energy = 0
         self.force_field  = 0
+
+    @property
+    def upgrade_cost(self):
+        if self.building.name == "empty" or self.building.level >= GAME_MAX_LEVEL:
+            return (None, None)
+        else:
+            return self.building.cost
+
+    @property
+    def upgrade_gold_cost(self):
+        return self.upgrade_cost[0]
+
+    @property
+    def upgrade_energy_cost(self):
+        return self.upgrade_cost[1]
 
     def _update_info(self, info):
         for field in info:
@@ -35,7 +51,7 @@ class GameMap:
         if isinstance(location, Position):
             return self._cells[location.y][location.x]
         elif isinstance(location, tuple):
-            return self._cells[location[0]][location[1]]
+            return self._cells[location[1]][location[0]]
 
     def __contains__(self, item):
         if isinstance(item, Position):

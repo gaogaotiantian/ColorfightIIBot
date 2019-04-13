@@ -31,7 +31,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 * ```users```
 
     > A map of ```User``` objects. **key** is ```uid``` and **value** is the 
-      ```User object.
+      ```User``` object.
 
 * ```error```
 
@@ -46,20 +46,29 @@ The ```Colorfight``` object holds all the useful information for the game.
 
 * ```.connect(url)``` 
 
-    > Establish connection to the server.
+    > Establish connection to the server. ```url``` is the url of the game room
+      you want to join.
 
 * ```.update_turn()```
 
     > Wait until next turn, and update the game info.
+      You should use this command after you send the command list to get the 
+      latest info from the game.
 
 * ```.register(username, password)```
 
-    > Register to the game with ```username``` and ```password```
+    > Register to the game with ```username``` and ```password```. Duplicate 
+      ```username``` is not allowed. If you already joined the game and somehow
+      disconnected. Using the same ```username``` and ```password``` will allow
+      you to continue with previous account.
 
 * ```.attack(position, energy)```
 
     > Returns a ```string``` for attacking a certain position. ```position``` 
       should be a ```Position``` object and energy should be an integer.
+
+      ** This string is a command that you should put in your command list
+      and send with ```send_cmd``` **
 
 * ```.build(position, building)```
 
@@ -67,9 +76,23 @@ The ```Colorfight``` object holds all the useful information for the game.
       ```position``` should be a ```Position``` object and building should be
       a character(Global const variable) representing the building type.
 
+      ** This string is a command that you should put in your command list
+      and send with ```send_cmd``` **
+
+* ```.upgrade(position)```
+
+    > Returns a ```string``` for upgrade the build on ```position```. 
+      ```position``` should be a ```Position``` object.
+
+      ** This string is a command that you should put in your command list
+      and send with ```send_cmd``` **
+
 * ```.send_cmd(cmd_list)```
 
-    > Sends the command list to the server.
+    > Sends the command list to the server. If you send multiple command lists
+      to the server in a single round, the latter one will overlap the former
+      ones. Only the last command list the server receives is valid. In theory,
+      you should only send one command list every round. 
 
 # Building
 
@@ -82,6 +105,10 @@ The ```Colorfight``` object holds all the useful information for the game.
 * ```name```
 
     > Name of the building in ```string```
+
+* ```level```
+
+    > Level of the building
 
 # GameMap
 
@@ -100,7 +127,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 * ```game_map[position]```
 
     > Get the ```MapCell``` object on ```position```. ```position``` should be
-      a ```Position``` Object.
+      a ```Position``` Object or a ```tuple``` ```(x, y)```.
 
 # MapCell
 
@@ -113,6 +140,9 @@ The ```Colorfight``` object holds all the useful information for the game.
 * ```building```
 
     > An object for the current building. ```Empty``` if nothing on the cell.
+      You should check the ```name``` of the ```building``` to determine what
+      kind of building it is. The possible names are ```empty```, ```home```, 
+      ```energy_well``` and ```gold_mine```.
 
 * ```gold```
 

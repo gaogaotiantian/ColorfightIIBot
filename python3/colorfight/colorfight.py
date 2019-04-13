@@ -5,7 +5,7 @@ from .game_map import GameMap
 from .user import User
 from .position import Position
 from .network import Network
-from .constants import update_globals, CMD_ATTACK
+from .constants import update_globals, CMD_ATTACK, CMD_BUILD, CMD_UPGRADE
 
 class Colorfight:
     def __init__(self):
@@ -91,6 +91,14 @@ class Colorfight:
         '''
         return "{} {} {} {}".format(CMD_BUILD, position.x, position.y, building)
             
+    def upgrade(self, position):
+        '''
+            /param position: a Position object to upgrade
+
+            /return: a string representing a command
+        '''
+        return "{} {} {}".format(CMD_UPGRADE, position.x, position.y)
+
     def send_cmd(self, cmd_list):
         msg = {"action": "command", "cmd_list": cmd_list}
         self.action_queue.put(msg)

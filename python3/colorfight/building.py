@@ -2,6 +2,7 @@ from .constants import BLD_ENERGY_WELL, BLD_GOLD_MINE
 
 class BaseBuilding:
     cost = 0
+    upgrade_cost = []
     def __init__(self):
         self.level = 1
 
@@ -12,7 +13,7 @@ class BaseBuilding:
         return cell.gold
 
     def get_attack_cost(self, cell):
-        return int(cell.natural_cost + cell.force_field)
+        return cell.attack_cost 
 
     def is_empty(self):
         return self.name == 'empty'
@@ -25,28 +26,30 @@ class Empty(BaseBuilding):
 
 class Home(BaseBuilding):
     name = 'home'
+    cost = (1000, 0)
+    upgrade_cost = [(1000, 1000), (2000, 2000), (4000, 4000)]
     def get_energy_source(self, cell):
-        return 10
+        return 10 * self.level
 
     def get_gold_source(self, cell):
-        return 10
+        return 10 * self.level
 
     def get_attack_cost(self, cell):
-        return 1000
+        return 1000 * self.level
 
 class EnergyWell(BaseBuilding):
     name = "energy_well"
-    cost = 100
+    cost = (100, 0)
 
     def get_gold_source(self, cell):
-        return cell.energy * 2
+        return cell.energy * (1 + self.level)
 
 class GoldMine(BaseBuilding):
     name = "gold_mine"
-    cost = 100
+    cost = (100, 0)
 
     def get_gold_source(self, cell):
-        return cell.gold * 2
+        return cell.gold * (1 + self.level)
 
 def get_building_class(building):
     '''

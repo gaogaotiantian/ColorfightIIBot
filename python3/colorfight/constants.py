@@ -1,6 +1,7 @@
 GAME_WIDTH = 30
 GAME_HEIGHT = 30
 GAME_MAX_TURN = 500
+GAME_MAX_LEVEL = 4
 
 def update_globals(info):
     global GAME_WIDTH
@@ -10,8 +11,9 @@ def update_globals(info):
     GAME_HEIGHT = info['height']
     GAME_MAX_TURN = info['max_turn']
 
-CMD_ATTACK = 'a'
-CMD_BUILD  = 'b'
+CMD_ATTACK  = 'a'
+CMD_BUILD   = 'b'
+CMD_UPGRADE = 'u'
 
 BLD_GOLD_MINE = 'g'
 BLD_ENERGY_WELL = 'e'
