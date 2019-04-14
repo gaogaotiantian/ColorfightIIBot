@@ -36,8 +36,9 @@ class MapCell:
             if field == 'position':
                 self.position = Position(info[field][0], info[field][1])
             elif field == 'building':
-                bld_cls = str_to_build_class(info[field])
+                bld_cls = str_to_build_class(info[field]["name"])
                 self.building = bld_cls()
+                self.building.level = info[field]["level"]
             else:
                 setattr(self, field, info[field])
 
