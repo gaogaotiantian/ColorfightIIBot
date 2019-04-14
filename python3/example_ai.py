@@ -18,7 +18,7 @@ game.connect(url = 'https://colorfightii.herokuapp.com/gameroom/public')
 # You need to set a password. For the example AI, the current time is used
 # as the password. You should change it to something that will not change 
 # between runs so you can continue the game if disconnected.
-if game.register(username = 'ExampleAI' + str(random.randint(1, 100)), \ 
+if game.register(username = 'ExampleAI' + str(random.randint(1, 100)), \
         password = str(int(time.time()))):
     # This is the game loop
     while True:
