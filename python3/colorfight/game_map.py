@@ -1,12 +1,11 @@
 from .position import Position
-from .building import Empty, Home, EnergyWell, GoldMine, str_to_build_class
+from .building import Empty, Home, EnergyWell, GoldMine, letter_to_build_class
 from .constants import GAME_MAX_LEVEL
 import random
 
 class MapCell:
     def __init__(self, position):
         self.position = position
-        self.is_home  = False
         self.building = Empty()
         self.gold = 0
         self.energy = 0
@@ -17,27 +16,21 @@ class MapCell:
         self.force_field  = 0
 
     @property
-    def upgrade_cost(self):
-        if self.building.name == "empty" or self.building.level >= GAME_MAX_LEVEL:
-            return (None, None)
-        else:
-            return self.building.cost
+    def is_empty(self):
+        return self.building.is_empty
 
     @property
-    def upgrade_gold_cost(self):
-        return self.upgrade_cost[0]
-
-    @property
-    def upgrade_energy_cost(self):
-        return self.upgrade_cost[1]
+    def is_home(self):
+        return self.building.is_home
 
     def _update_info(self, info):
         for field in info:
             if field == 'position':
                 self.position = Position(info[field][0], info[field][1])
             elif field == 'building':
-                bld_cls = str_to_build_class(info[field])
+                bld_cls = letter_to_build_class(info[field][0])
                 self.building = bld_cls()
+                self.building.level = info[field][1]
             else:
                 setattr(self, field, info[field])
 
@@ -62,8 +55,15 @@ class GameMap:
             return False
 
     def _update_info(self, info):
-        for row in info:
+        def unpack_cell(headers, cell):
+            unpacked_cell = {}
+            for idx, header in enumerate(headers):
+                unpacked_cell[header] = cell[idx]
+            return unpacked_cell
+
+        for row in info['data']:
             for cell in row:
+                cell = unpack_cell(info['headers'], cell)
                 x = cell['position'][0]
                 y = cell['position'][1]
                 self._cells[y][x]._update_info(cell)

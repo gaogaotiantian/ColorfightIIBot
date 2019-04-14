@@ -21,10 +21,12 @@ class Colorfight:
         self.action_queue = None
         self.action_resp_queue = None
 
-    def connect(self, url = 'ws://localhost:5000'):
+    def connect(self, room = 'public', url = None):
         self.info_queue = queue.Queue()
         self.action_queue = queue.Queue()
         self.action_resp_queue = queue.Queue()
+        if url == None:
+            url = 'https://colorfightii.herokuapp.com/gameroom/' + room
         self.nw = Network(self.info_queue, self.action_queue, self.action_resp_queue, url)
         self.nw.setDaemon(True)
         self.nw.start()
@@ -35,6 +37,7 @@ class Colorfight:
         self._update_info(info['info'])
         self.game_map = GameMap(self.width, self.height)
         self.game_map._update_info(info['game_map'])
+        self.users = {}
         for uid in info['users']:
             user = User()
             user._update_info(info['users'][uid])
@@ -46,7 +49,7 @@ class Colorfight:
         if self.uid in self.users:
             self.me = self.users[self.uid]
         else:
-            print("Me:", self.uid, self.users.keys())
+            self.me = None
 
     def _update_info(self, info):
         for field in info:
@@ -55,13 +58,20 @@ class Colorfight:
 
     def update_turn(self):
         info = self.info_queue.get()
-        while not self.info_queue.empty():
-            info = self.info_queue.get()
+        while True:
+            while not self.info_queue.empty():
+                info = self.info_queue.get()
+            if info["turn"] != self.turn:
+                break
         self._update(info)
 
-    def register(self, username, password):
-        self.action_queue.put({'action':'register', 'username':username, 'password':password})
-        time.sleep(0.1)
+    def register(self, username, password, join_key = ''):
+        self.action_queue.put({'action': 'register', 
+                'username': username, 
+                'password': password,
+                'join_key': join_key
+        })
+        time.sleep(0.01)
         try:
             result = self.action_resp_queue.get(timeout = 2)
             if "err_msg" in result:
@@ -103,6 +113,6 @@ class Colorfight:
         msg = {"action": "command", "cmd_list": cmd_list}
         self.action_queue.put(msg)
         result = self.action_resp_queue.get()
-        print(result)
+        return result
 
 
