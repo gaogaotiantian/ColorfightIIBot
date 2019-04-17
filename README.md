@@ -143,6 +143,44 @@ The ```Colorfight``` object holds all the useful information for the game.
       ```cmd_list.append(game.build((2, 5), BLD_ENERGY_WELL))```
       Then do a ```game.send_cmd(cmd_list)```
 
+# User
+
+## attributes of ```User```
+
+* ```uid```
+
+    > User id 
+
+* ```energy```
+
+    > Current energy the user has.
+
+* ```gold```
+
+    > Current gold the user has.
+
+* ```energy_source```
+
+    > The amount of energy the user can produce each round
+
+* ```gold_source```
+
+    > The amount of gold the user can produce each round
+
+* ```tech_level```
+
+    > The tech_level of the user. This limits the highest level of building
+      the user can upgrade to.
+
+* ```tax_level```
+
+    > The tax_level of the user.
+
+* ```cells```
+
+    > A map of ```MapCell``` objects. **key** is ```Position``` object and 
+      **value** is ```MapCell``` object.
+
 # GameMap
 
 ## attributes of ```GameMap```
@@ -155,7 +193,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 
     > Height of the game map
 
-## methods
+## methods of ```GameMap```
 
 * ```game_map[position]```
 
@@ -170,7 +208,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 This is the object representing a cell. ```cell = game.game_map[Position(3, 4)]``` 
 stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
-## attributes
+## attributes of ```MapCell```
 
 * ```position```
 
@@ -212,7 +250,7 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
 # Building
 
-## attributes
+## attributes of ```Building```
 
 * ```cost```
 
@@ -226,15 +264,39 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
     > Level of the building
 
+* ```is_empty```
+    
+    > Whether the building is empty
+
+* ```is_home```
+    
+    > Whether the building is home 
+
+* ```max_level```
+
+    > Maximum level this building can reach
+
+* ```can_upgrade```
+
+    > If the building can be upgraded
+
+* ```upgrade_gold```
+
+    > Amount of gold to upgrade the building. Invalid if cannot upgrade
+
+* ```upgrade_energy```
+
+    > Amount of energy to upgrade the building. Invalid if cannot upgrade
+
 # Position
 
-## attributes
+## attributes of ```Position```
 
 * ```x```
 
 * ```y```
 
-## methods
+## methods of ```Position```
 
 * ```.is_valid()```
 
@@ -261,7 +323,7 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
 # Direction
 
-## attributes
+## attributes of ```Direction```
 
 * ```North```
 
@@ -279,50 +341,12 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
     > (1, 0)
 
-## methods
+## methods of ```Direction```
 
 * ```get_all_cardinals()```
 
     > Returns a list of all directions. 
 
-# User
-
-## attributes
-
-* ```uid```
-
-    > User id 
-
-* ```energy```
-
-    > Current energy the user has.
-
-* ```gold```
-
-    > Current gold the user has.
-
-* ```energy_source```
-
-    > The amount of energy the user can produce each round
-
-* ```gold_source```
-
-    > The amount of gold the user can produce each round
-
-* ```tech_level```
-
-    > The tech_level of the user. This limits the highest level of building
-      the user can upgrade to.
-
-* ```tax_level```
-
-    > The tax_level of the user.
-
-
-* ```cells```
-
-    > A map of ```MapCell``` objects. **key** is ```Position``` object and 
-      **value** is ```MapCell``` object.
 
 # constants
 
@@ -337,3 +361,7 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 * ```BLD_ENERGY_WELL```
 
     > Build character for energy well
+
+* ```BLD_FORTRESS```
+
+    > Build character for fortress

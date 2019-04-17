@@ -1,4 +1,4 @@
-from .constants import BLD_ENERGY_WELL, BLD_GOLD_MINE
+from .constants import BLD_ENERGY_WELL, BLD_GOLD_MINE, BLD_FORTRESS
 
 class BaseBuilding:
     cost = 0
@@ -15,8 +15,36 @@ class BaseBuilding:
     def get_attack_cost(self, cell):
         return cell.attack_cost 
 
+    @property
     def is_empty(self):
         return self.name == 'empty'
+
+    @property
+    def is_home(self):
+        return self.name == 'home'
+
+    @property
+    def max_level(self):
+        if self.upgrade_cost:
+            return len(self.upgrade_cost) + 1
+        else:
+            return 0
+
+    @property
+    def can_upgrade(self):
+        return self.level < self.max_level
+
+    @property
+    def upgrade_gold(self):
+        if self.can_upgrade:
+            return self.upgrade_cost[self.level - 1][0]
+        return None
+
+    @property
+    def upgrade_energy(self):
+        if self.can_upgrade:
+            return self.upgrade_cost[self.level - 1][1]
+        return None
 
     def info(self):
         return self.name
@@ -27,29 +55,22 @@ class Empty(BaseBuilding):
 class Home(BaseBuilding):
     name = 'home'
     cost = (1000, 0)
-    upgrade_cost = [(1000, 1000), (2000, 2000), (4000, 4000)]
-    def get_energy_source(self, cell):
-        return 10 * self.level
-
-    def get_gold_source(self, cell):
-        return 10 * self.level
-
-    def get_attack_cost(self, cell):
-        return 1000 * self.level
+    upgrade_cost = [(1000, 1000), (2000, 2000)]
 
 class EnergyWell(BaseBuilding):
     name = "energy_well"
     cost = (100, 0)
-
-    def get_gold_source(self, cell):
-        return cell.energy * (1 + self.level)
+    upgrade_cost = [(200, 0), (400, 0)]
 
 class GoldMine(BaseBuilding):
     name = "gold_mine"
     cost = (100, 0)
+    upgrade_cost = [(200, 0), (400, 0)]
 
-    def get_gold_source(self, cell):
-        return cell.gold * (1 + self.level)
+class Fortress(BaseBuilding):
+    name = "fortress"
+    cost = (100, 0)
+    upgrade_cost = [(200, 0), (400, 0)]
 
 def get_building_class(building):
     '''
