@@ -7,6 +7,11 @@ public class Pair {
         this.y = y;
     }
 
+    public void assign(Pair other){
+        this.x = other.x;
+        this.y = other.y;
+    }
+
     public int getX() {
         return x;
     }

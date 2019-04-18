@@ -37,6 +37,11 @@ public class Position {
         return new Position( this.x + other.x, this.y + other.y );
     }
 
+    public void assign( Position other){
+        this.x = other.x;
+        this.y = other.y;
+    }
+
     @Override
     public String toString() {
         return "Position(" + x + ", " + y + ')';
