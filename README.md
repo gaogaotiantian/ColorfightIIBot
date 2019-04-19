@@ -202,7 +202,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 * ```game_map[position]```
 
     > Get the ```MapCell``` object on ```position```. ```position``` should be
-      a ```Position``` Object or a ```tuple``` ```(x, y)```.
+      a ```Position``` object or a ```tuple``` ```(x, y)```.
 
     > example: ```game_map[(1, 2)]``` will get you the ```MapCell``` object of
       ```(1, 2)```, which is equivalent to ```game_map[Position(1, 2)]```
@@ -225,7 +225,7 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
       kind of building it is. The possible names are ```empty```, ```home```, 
       ```energy_well``` and ```gold_mine```.
     
-    > ```cell.building.name == home``` will return a boolean whether the cell
+    > ```cell.building.name == "home"``` will return a boolean whether the cell
       has a home on it
 
 * ```gold```
