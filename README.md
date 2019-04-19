@@ -176,6 +176,10 @@ The ```Colorfight``` object holds all the useful information for the game.
 
     > The tax_level of the user.
 
+* ```tax_amount```
+    
+    > The amount of energy and gold the user will be taxed.
+
 * ```cells```
 
     > A map of ```MapCell``` objects. **key** is ```Position``` object and 
