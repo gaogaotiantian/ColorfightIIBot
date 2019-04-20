@@ -135,6 +135,10 @@ The ```Colorfight``` object holds all the useful information for the game.
       ones. Only the last command list the server receives is valid. In theory,
       you should only send one command list every round. 
 
+    > Returns a ```dict``` from the server of whether the command is taken.
+      ```{"success": <boolean>, "err_msg": <str>}```. ```err_msg``` only exists
+      if ```success``` is ```False```.
+
     > All the commands(attack, build, upgrade) above will only return a 
       ```string``` representing the command. So * nothing will happen * if you
       do not send the commands to the server. 

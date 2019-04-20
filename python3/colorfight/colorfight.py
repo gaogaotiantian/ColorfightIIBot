@@ -35,6 +35,7 @@ class Colorfight:
         self._update_info(info['info'])
         self.game_map = GameMap(self.width, self.height)
         self.game_map._update_info(info['game_map'])
+        self.users = {}
         for uid in info['users']:
             user = User()
             user._update_info(info['users'][uid])
@@ -46,7 +47,7 @@ class Colorfight:
         if self.uid in self.users:
             self.me = self.users[self.uid]
         else:
-            print("Me:", self.uid, self.users.keys())
+            self.me = None
 
     def _update_info(self, info):
         for field in info:
@@ -61,7 +62,7 @@ class Colorfight:
 
     def register(self, username, password):
         self.action_queue.put({'action':'register', 'username':username, 'password':password})
-        time.sleep(0.1)
+        time.sleep(0.01)
         try:
             result = self.action_resp_queue.get(timeout = 2)
             if "err_msg" in result:
@@ -103,6 +104,6 @@ class Colorfight:
         msg = {"action": "command", "cmd_list": cmd_list}
         self.action_queue.put(msg)
         result = self.action_resp_queue.get()
-        print(result)
+        return result
 
 

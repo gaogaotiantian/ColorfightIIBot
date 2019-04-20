@@ -9,7 +9,7 @@ game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
 # join other rooms, you need to change the url to the room.
-game.connect(url = 'https://colorfightii.herokuapp.com/gameroom/public')
+game.connect(url = 'http://localhost:5000/gameroom/public')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
@@ -49,16 +49,16 @@ if game.register(username = 'ExampleAI' + str(random.randint(1, 100)), \
                 # is not mine, and I have not attacked it in this round already
                 if c.attack_cost < game.me.energy and c.owner != game.uid \
                         and c.position not in my_attack_list:
-                    print(c.position, c.owner, game.uid)
-                    print(c.attack_cost)
                     # Add the attack command in the command list
                     # Subtract the attack cost manually so I can keep track
                     # of the energy I have.
                     # Add the position to the attack list so I won't attack
                     # the same cell
                     cmd_list.append(game.attack(pos, c.attack_cost))
+                    print("We are attacking ({}, {}) with {} energy".format(pos.x, pos.y, c.attack_cost))
                     game.me.energy -= c.attack_cost
                     my_attack_list.append(c.position)
         
         # Send the command list to the server
-        game.send_cmd(cmd_list)
+        result = game.send_cmd(cmd_list)
+        print(result)
