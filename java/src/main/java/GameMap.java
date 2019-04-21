@@ -4,10 +4,9 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class GameMap {
-    //TODO: idk...it's just incomplete
     private int width;
     private int height;
-    public MapCell[][] game_map;
+    private MapCell[][] game_map;
 
     public GameMap(int width, int height){
         this.width = width;
@@ -18,6 +17,10 @@ public class GameMap {
                 game_map[j][i] = new MapCell(new Position(i,j));
             }
         }
+    }
+
+    public MapCell get_cell(Position pos){
+        return game_map[pos.getY()][pos.getX()];
     }
 
     public void _update_info(JSONArray info){

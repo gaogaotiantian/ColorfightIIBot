@@ -19,4 +19,5 @@ public class Constants {
     public static final char BLD_HOME      = 'h';
     public static final char BLD_GOLD_MINE = 'g';
     public static final char BLD_ENERGY_WELL = 'e';
+    public static final char BLD_FORTRESS = 'f';
 }

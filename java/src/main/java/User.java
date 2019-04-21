@@ -13,6 +13,7 @@ public class User {
     public boolean dead = false;
     public int tech_level = 1;
     public int tax_level = 0;
+    public int tax_amount = 0;
     public ArrayList<Position> cells = new ArrayList<>();
 
     public void _update_info( Map info ){
@@ -24,6 +25,7 @@ public class User {
         dead = (boolean)info.get("dead");
         tech_level = ((Long)info.get("tech_level")).intValue();
         tax_level = ((Long)info.get("tax_level")).intValue();
+        tax_amount = ((Long)info.get("tax_amount")).intValue();
         cells.clear();
         for (Object o:(JSONArray)info.get("cells")
              ) {

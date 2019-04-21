@@ -1,11 +1,11 @@
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.Map;
 
 public class MapCell {
     public Position position;
-    //TODO: building
-    public Building building = new Empty();
+    public Building building;
     public int gold = 0;
     public int energy = 0;
     public int owner = 0;
@@ -20,10 +20,10 @@ public class MapCell {
     }
 
     public void _update_info( Map info ){
-        /*position = new Position(
+        position.assign(new Position(
                 ((Long)((JSONArray)info.get("position")).get(0)).intValue(),
                 ((Long)((JSONArray)info.get("position")).get(1)).intValue()
-        );*/
+        ));
         gold = ((Long)info.get("gold")).intValue();
         energy = ((Long)info.get("energy")).intValue();
         owner = ((Long)info.get("owner")).intValue();
@@ -32,5 +32,15 @@ public class MapCell {
         natural_gold = ((Long)info.get("natural_gold")).intValue();
         natural_energy = ((Long)info.get("natural_energy")).intValue();
         force_field = ((Long)info.get("force_field")).intValue();
+        building = str_to_build_class((String) ((JSONObject)info.get("building")).get("name"));
+        building.level = ((Long)((JSONObject)info.get("building")).get("level")).intValue();
+    }
+
+    private Building str_to_build_class(String name){
+        if(name.equals("empty")) return new Empty();
+        if(name.equals("home")) return new Home();
+        if(name.equals("energy_well")) return new EnergyWell();
+        if(name.equals("gold_mine")) return new GoldMine();
+        else return new Fortress();
     }
 }

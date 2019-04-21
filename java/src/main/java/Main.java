@@ -10,8 +10,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         /*
-         * TODO
-         * currently a test for websocket connectivity
+         * example ai for java
          */
         Colorfight game = new Colorfight();
         try {
@@ -28,7 +27,7 @@ public class Main {
                      ) {
                     for (Position pos:cell.get_surrounding_cardinals()
                          ) {
-                        MapCell c = game.game_map.game_map[pos.getY()][pos.getX()];
+                        MapCell c = game.game_map.get_cell(pos);
                         if((c.attack_cost < game.me.energy) && (c.owner != game.uid) && (!my_attack_list.contains(c.position))){
                             cmd_list.add(game.attack(pos, c.attack_cost));
                             game.me.energy -= c.attack_cost;
