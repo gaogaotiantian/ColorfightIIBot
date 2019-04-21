@@ -1,28 +1,37 @@
+import org.json.simple.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    private int uid = 0;
-    private int energy = 0;
-    private int gold = 0;
-    private int energy_source = 0;
-    private int gold_source = 0;
-    private boolean dead = false;
-    private int tech_level = 1;
-    private int tax_level = 0;
-    private Map<Position, MapCell> cells;
+    public int uid = 0;
+    public int energy = 0;
+    public int gold = 0;
+    public int energy_source = 0;
+    public int gold_source = 0;
+    public boolean dead = false;
+    public int tech_level = 1;
+    public int tax_level = 0;
+    public ArrayList<Position> cells = new ArrayList<>();
 
     public void _update_info( Map info ){
-        uid = (int)info.get("uid");
-        energy = (int)info.get("energy");
-        gold = (int)info.get("gold");
-        energy_source = (int)info.get("energy_source");
-        gold_source = (int)info.get("gold_source");
+        uid = ((Long) info.get("uid")).intValue();
+        energy = ((Long)info.get("energy")).intValue();
+        gold = ((Long)info.get("gold")).intValue();
+        energy_source = ((Long)info.get("energy_source")).intValue();
+        gold_source = ((Long)info.get("gold_source")).intValue();
         dead = (boolean)info.get("dead");
-        tech_level = (int)info.get("tech_level");
-        tax_level = (int)info.get("tax_level");
-        cells = (Map<Position, MapCell>)info.get("cells");
+        tech_level = ((Long)info.get("tech_level")).intValue();
+        tax_level = ((Long)info.get("tax_level")).intValue();
+        cells.clear();
+        for (Object o:(JSONArray)info.get("cells")
+             ) {
+            JSONArray cell = (JSONArray) o;
+            int x = ((Long)cell.get(0)).intValue();
+            int y = ((Long)cell.get(1)).intValue();
+            cells.add(new Position(x,y));
+        }
     }
 
     public Map info(){
@@ -35,9 +44,7 @@ public class User {
         info.put("gold_source", gold_source);
         info.put("tech_level", tech_level);
         info.put("tax_level", tax_level);
-        ArrayList cellinfos = new ArrayList();
-        cellinfos.addAll(cells.values());
-        info.put("cells", cellinfos);
+        info.put("cells", cells);
         return info;
     }
 }

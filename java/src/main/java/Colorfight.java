@@ -18,8 +18,8 @@ public class Colorfight {
     public int max_turn = 0;
     public int round_time = 0;
     public User me = null;
-    public Map<Integer, User> users;
-    public Map<Integer, ArrayList<String>> error;
+    public Map<Integer, User> users = new HashMap<>();
+    public Map<Integer, Object> error = new HashMap<>();
     public GameMap game_map = null;
 
     private WebsocketClientEndpoint clientEndPoint_action;
@@ -38,24 +38,26 @@ public class Colorfight {
     }
 
     private void _update(JSONObject info){
-        turn = (int) info.get("turn");
-        error = (Map<Integer, ArrayList<String>>) info.get("error");
-        max_turn = (int) ((JSONArray)info.get("info")).get(0);
-        round_time = (int) ((JSONArray) info.get("info")).get(3);
-        for (Object o:(JSONArray) info.get("users")
+        turn = ((Long) info.get("turn")).intValue();
+        error = (Map<Integer, Object>) info.get("error");
+        max_turn = ((Long) ((JSONObject)info.get("info")).get("max_turn")).intValue();
+        round_time = ((Long) ((JSONObject) info.get("info")).get("round_time")).intValue();
+        for (Object o:((Map)info.get("users")).values()
              ) {
             JSONObject user =  (JSONObject) o;
             User temp = new User();
             temp._update_info(user);
-            this.users.put((Integer) user.get("uid"), temp);
+            ((Long) user.get("uid")).intValue();
+            users.put(((Long) user.get("uid")).intValue(), temp);
         }
-        if(users.containsKey(uid)){
+        if(users!=null && users.containsKey(uid)){
             me = users.get(uid);
         }
         game_map = new GameMap(
-                (int) ((JSONArray)info.get("info")).get(1),
-                (int) ((JSONArray)info.get("info")).get(2)
+                ((Long) ((JSONObject)info.get("info")).get("width")).intValue(),
+                ((Long) ((JSONObject)info.get("info")).get("height")).intValue()
         );
+        game_map._update_info((JSONArray)info.get("game_map"));
 
     }
 
@@ -67,7 +69,7 @@ public class Colorfight {
         // add listener
         clientEndPoint_action.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
             public void handleMessage(String message) {
-                System.out.println(message);
+                //System.out.println(message);
                 action_queue.add(message);
             }
         });
@@ -75,7 +77,7 @@ public class Colorfight {
         // add listener
         clientEndPoint_info.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
             public void handleMessage(String message) {
-                System.out.println(message);
+                //System.out.println(message);
                 info_queue.add(message);
             }
         });
@@ -83,7 +85,7 @@ public class Colorfight {
 
     public void update_turn() throws InterruptedException, ParseException {
         JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
+        JSONObject json = (JSONObject) parser.parse(info_queue.poll(2, TimeUnit.SECONDS));
         while(!info_queue.isEmpty()){
             json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
         }
@@ -91,7 +93,7 @@ public class Colorfight {
     }
 
     public boolean register(String username, String password) throws InterruptedException, ParseException {
-        clientEndPoint_action.sendMessage("{\"action\":\"register\",\"username\":"+username+",\"password\":"+password+"}");
+        clientEndPoint_action.sendMessage("{\"action\":\"register\",\"username\":\""+username+"\",\"password\":\""+password+"\"}");
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(action_queue.poll(2, TimeUnit.SECONDS));
         if(json.get("uid")==null) {
@@ -99,7 +101,7 @@ public class Colorfight {
             return false;
         }
         else {
-            uid = (int) json.get("uid");
+            uid = ((Long) json.get("uid")).intValue();
         }
         return true;
     }

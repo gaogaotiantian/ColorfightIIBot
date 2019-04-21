@@ -1,14 +1,36 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+
 public class GameMap {
     //TODO: idk...it's just incomplete
     private int width;
     private int height;
+    public MapCell[][] game_map;
 
     public GameMap(int width, int height){
         this.width = width;
         this.height = height;
+        game_map = new MapCell[height][width];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                game_map[j][i] = new MapCell(new Position(i,j));
+            }
+        }
     }
 
-    public MapCell game_map(Position position){
-        return new MapCell(position);
+    public void _update_info(JSONArray info){
+        for (Object o:info
+             ) {
+            JSONArray row = (JSONArray) o;
+            for (Object m:row
+                 ) {
+                JSONObject cell = (JSONObject) m;
+                int x = ((Long)((JSONArray)cell.get("position")).get(0)).intValue();
+                int y = ((Long)((JSONArray)cell.get("position")).get(1)).intValue();
+                game_map[y][x]._update_info(cell);
+            }
+        }
     }
 }
