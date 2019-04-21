@@ -26,7 +26,7 @@ public class User {
     }
 
     public Map info(){
-        Map info = new HashMap<String, Object>();
+        Map<String, Object> info = new HashMap<>();
         info.put("uid", uid);
         info.put("energy", energy);
         info.put("gold", gold);
@@ -36,10 +36,7 @@ public class User {
         info.put("tech_level", tech_level);
         info.put("tax_level", tax_level);
         ArrayList cellinfos = new ArrayList();
-        for (MapCell mapcell:cells.values()
-             ) {
-            cellinfos.add(mapcell);
-        }
+        cellinfos.addAll(cells.values());
         info.put("cells", cellinfos);
         return info;
     }
