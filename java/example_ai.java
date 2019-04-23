@@ -1,10 +1,10 @@
-package colorfightII;
+import colorfightII.*;
 import org.json.simple.parser.ParseException;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-public class Main {
+public class example_ai {
     public static void main(String[] args) {
         /*
          * example ai for java
