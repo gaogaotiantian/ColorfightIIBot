@@ -32,7 +32,7 @@ class BaseBuilding:
 
     @property
     def can_upgrade(self):
-        return self.level < self.max_level
+        return not self.is_empty and self.level < self.max_level
 
     @property
     def upgrade_gold(self):
@@ -80,11 +80,13 @@ def get_building_class(building):
         return EnergyWell
     elif building == BLD_GOLD_MINE:
         return GoldMine
+    elif building == BLD_FORTRESS:
+        return Fortress
     else:
         return None
 
 def str_to_build_class(s):
-    for cls in [Empty, Home, EnergyWell, GoldMine]:
+    for cls in [Empty, Home, EnergyWell, GoldMine, Fortress]:
         if cls.name == s:
             return cls
     return Empty
