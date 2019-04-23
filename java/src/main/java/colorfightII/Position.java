@@ -1,3 +1,5 @@
+package colorfightII;
+
 import java.util.Objects;
 
 public class Position {
@@ -52,7 +54,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position(" + x + ", " + y + ')';
+        return "colorfightII.Position(" + x + ", " + y + ')';
     }
 
     public boolean is_valid(){

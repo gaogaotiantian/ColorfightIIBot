@@ -1,10 +1,7 @@
+package colorfightII;
 import org.json.simple.parser.ParseException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Main {

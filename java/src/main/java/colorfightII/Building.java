@@ -1,3 +1,4 @@
+package colorfightII;
 import java.util.ArrayList;
 
 abstract class Building {

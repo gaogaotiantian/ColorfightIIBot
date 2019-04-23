@@ -1,3 +1,5 @@
+package colorfightII;
+
 import java.net.URI;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;

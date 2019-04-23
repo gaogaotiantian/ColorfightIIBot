@@ -1,3 +1,5 @@
+package colorfightII;
+
 public class Direction {
     private static Pair North = new Pair(0, -1);
     private static Pair South = new Pair(0, 1);

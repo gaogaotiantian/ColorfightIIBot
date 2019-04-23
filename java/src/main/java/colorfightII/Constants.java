@@ -1,3 +1,5 @@
+package colorfightII;
+
 import java.util.Map;
 
 public class Constants {

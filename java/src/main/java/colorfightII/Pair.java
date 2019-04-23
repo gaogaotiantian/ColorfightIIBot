@@ -1,3 +1,5 @@
+package colorfightII;
+
 public class Pair {
     private int x;
     private int y;
