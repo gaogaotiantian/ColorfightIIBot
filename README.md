@@ -256,6 +256,14 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
 * ```force_field```
 
+* ```is_empty```
+    
+    > Whether the building is empty
+
+* ```is_home```
+    
+    > Whether the building is home 
+
 # Building
 
 ## attributes of ```Building```
