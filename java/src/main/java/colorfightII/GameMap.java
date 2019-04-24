@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 public class GameMap {
     private int width;
     private int height;
-    private MapCell[][] game_map;
+    private static MapCell[][] game_map;
 
     public GameMap(int width, int height){
         this.width = width;
@@ -19,8 +19,8 @@ public class GameMap {
         }
     }
 
-    public MapCell get_cell(Position pos){
-        return game_map[pos.getY()][pos.getX()];
+    public static MapCell get_cell(Position pos){
+        return game_map[pos.y][pos.x];
     }
 
     public void _update_info(JSONArray info){

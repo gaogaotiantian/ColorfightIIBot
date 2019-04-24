@@ -16,7 +16,7 @@ public class User {
     public int tech_level = 1;
     public int tax_level = 0;
     public int tax_amount = 0;
-    public ArrayList<Position> cells = new ArrayList<>();
+    public ArrayList<MapCell> cells = new ArrayList<>();
 
     public void _update_info( Map info ){
         uid = ((Long) info.get("uid")).intValue();
@@ -34,7 +34,7 @@ public class User {
             JSONArray cell = (JSONArray) o;
             int x = ((Long)cell.get(0)).intValue();
             int y = ((Long)cell.get(1)).intValue();
-            cells.add(new Position(x,y));
+            cells.add(GameMap.get_cell(new Position(x,y)));
         }
     }
 

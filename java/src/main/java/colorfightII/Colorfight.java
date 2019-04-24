@@ -87,7 +87,7 @@ public class Colorfight {
 
     public void update_turn() throws InterruptedException, ParseException {
         JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(info_queue.poll(2, TimeUnit.SECONDS));
+        JSONObject json = (JSONObject) parser.parse(info_queue.poll(3, TimeUnit.SECONDS));
         while(!info_queue.isEmpty()){
             json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
         }
@@ -110,22 +110,22 @@ public class Colorfight {
 
     public String attack(Position position, int energy){
         return Constants.CMD_ATTACK
-                + " " + position.getX()
-                + " " + position.getY()
+                + " " + position.x
+                + " " + position.y
                 + " " + energy;
     }
 
     public String build(Position position, char building){
         return Constants.CMD_BUILD
-                + " " + position.getX()
-                + " " + position.getY()
+                + " " + position.x
+                + " " + position.y
                 + " " + building;
     }
 
     public String upgrade(Position position){
         return Constants.CMD_UPGRADE
-                + " " + position.getX()
-                + " " + position.getY();
+                + " " + position.x
+                + " " + position.y;
     }
 
     public JSONObject send_cmd(ArrayList<String> cmd_list) throws InterruptedException, ParseException {

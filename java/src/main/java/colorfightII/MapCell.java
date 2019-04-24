@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class MapCell {
     public Position position;
-    public Building building;
+    public Building building = new Empty();
     public int gold = 0;
     public int energy = 0;
     public int owner = 0;
@@ -18,7 +18,7 @@ public class MapCell {
     public int force_field = 0;
 
     public MapCell(Position position){
-        this.position = new Position(position.getX(), position.getY());
+        this.position = new Position(position.x, position.y);
     }
 
     public void _update_info( Map info ){
