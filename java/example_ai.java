@@ -41,16 +41,16 @@ public class example_ai {
                             my_attack_list.add(c.position);
                         }
                     }
-                    if( (cell.building.can_upgrade()) &&
-                            (cell.building.is_home() || (cell.building.level < me.tech_level)) &&
-                            (cell.building.upgrade_gold() < me.gold) &&
-                            (cell.building.upgrade_energy() < me.energy)){
+                    if( (cell.building.can_upgrade) &&
+                            (cell.building.is_home || (cell.building.level < me.tech_level)) &&
+                            (cell.building.upgrade_gold < me.gold) &&
+                            (cell.building.upgrade_energy < me.energy)){
                         cmd_list.add(game.upgrade(cell.position));
                         System.out.println("we upgraded {"+cell.position.x+","+cell.position.y+"}");
-                        me.gold -= cell.building.upgrade_gold();
-                        me.energy -= cell.building.upgrade_energy();
+                        me.gold -= cell.building.upgrade_gold;
+                        me.energy -= cell.building.upgrade_energy;
                     }
-                    if( (cell.owner==me.uid) && (cell.building.is_empty()) && (me.gold >= 100) ){
+                    if( (cell.owner==me.uid) && (cell.building.is_empty) && (me.gold >= 100) ){
                         char buildings[] = {
                                 Constants.BLD_FORTRESS,
                                 Constants.BLD_GOLD_MINE,

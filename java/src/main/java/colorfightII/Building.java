@@ -5,8 +5,12 @@ public abstract class Building {
     public Pair cost = new Pair(0,0);
     public String name;
     public int level = 1;
-    public abstract boolean is_empty();
-    public abstract boolean is_home();
+    public boolean is_empty;
+    public boolean is_home;
+    public int max_level = 0;
+    public boolean can_upgrade = false;
+    public int upgrade_gold = 0;
+    public int upgrade_energy = 0;;
 
     public ArrayList<Pair> upgrade_cost = new ArrayList<>();
 
@@ -15,29 +19,20 @@ public abstract class Building {
         this.name = name;
     }
 
-    public int max_level() {
+    public void _update_member(){
         if(upgrade_cost.size()!=0){
-            return upgrade_cost.size() + 1;
+            max_level = upgrade_cost.size() + 1;
         }
-        return 0;
-    }
 
-    public boolean can_upgrade() {
-        return (!is_empty()) && level < max_level();
-    }
+        can_upgrade = (!is_empty) && level < max_level;
 
-    public int upgrade_gold() {
-        if(can_upgrade()){
-            return upgrade_cost.get(level - 1).getX();
+        if(can_upgrade){
+            upgrade_gold = upgrade_cost.get(level - 1).getX();
         }
-        return Integer.parseInt(null);
-    }
 
-    public int upgrade_energy() {
-        if(can_upgrade()){
-            return upgrade_cost.get(level - 1).getY();
+        if(can_upgrade){
+            upgrade_energy = upgrade_cost.get(level - 1).getY();
         }
-        return Integer.parseInt(null);
     }
 }
 

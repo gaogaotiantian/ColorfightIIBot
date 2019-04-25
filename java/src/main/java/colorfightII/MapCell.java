@@ -36,6 +36,7 @@ public class MapCell {
         force_field = ((Long)info.get("force_field")).intValue();
         building = str_to_build_class((String) ((JSONObject)info.get("building")).get("name"));
         building.level = ((Long)((JSONObject)info.get("building")).get("level")).intValue();
+        building._update_member();
     }
 
     private Building str_to_build_class(String name){
