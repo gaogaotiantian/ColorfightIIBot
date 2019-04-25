@@ -135,6 +135,10 @@ The ```Colorfight``` object holds all the useful information for the game.
       ones. Only the last command list the server receives is valid. In theory,
       you should only send one command list every round. 
 
+    > Returns a ```dict``` from the server of whether the command is taken.
+      ```{"success": <boolean>, "err_msg": <str>}```. ```err_msg``` only exists
+      if ```success``` is ```False```.
+
     > All the commands(attack, build, upgrade) above will only return a 
       ```string``` representing the command. So * nothing will happen * if you
       do not send the commands to the server. 
@@ -143,151 +147,9 @@ The ```Colorfight``` object holds all the useful information for the game.
       ```cmd_list.append(game.build((2, 5), BLD_ENERGY_WELL))```
       Then do a ```game.send_cmd(cmd_list)```
 
-# GameMap
-
-## attributes of ```GameMap```
-
-* ```width```
-
-    > Width of the game map
-
-* ```height```
-
-    > Height of the game map
-
-## methods
-
-* ```game_map[position]```
-
-    > Get the ```MapCell``` object on ```position```. ```position``` should be
-      a ```Position``` Object or a ```tuple``` ```(x, y)```.
-
-    > example: ```game_map[(1, 2)]``` will get you the ```MapCell``` object of
-      ```(1, 2)```, which is equivalent to ```game_map[Position(1, 2)]```
-
-# MapCell
-
-This is the object representing a cell. ```cell = game.game_map[Position(3, 4)]``` 
-stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
-
-## attributes
-
-* ```position```
-
-    > ```Position``` object representing the position of the cell.
-
-* ```building```
-
-    > An object for the current building. ```Empty``` if nothing on the cell.
-      You should check the ```name``` of the ```building``` to determine what
-      kind of building it is. The possible names are ```empty```, ```home```, 
-      ```energy_well``` and ```gold_mine```.
-    
-    > ```cell.building.name == home``` will return a boolean whether the cell
-      has a home on it
-
-* ```gold```
-
-    > The amount of gold the cell produces for each round.
-
-* ```energy```
-
-    > The amount of energy the cell produces for each round.
-
-* ```owner```
-
-    > ```uid``` of the owner of this cell.
-
-* ```attack_cost```
-
-    > The minimum energy you should use to attack this cell
-
-* ```natural_cost```
-
-* ```natural_gold```
-
-* ```natural_energy```
-
-* ```force_field```
-
-# Building
-
-## attributes
-
-* ```cost```
-
-    > Cost of the building
-
-* ```name```
-
-    > Name of the building in ```string```
-
-* ```level```
-
-    > Level of the building
-
-# Position
-
-## attributes
-
-* ```x```
-
-* ```y```
-
-## methods
-
-* ```.is_valid()```
-
-    > If the position is valid on the map
-
-* ```.directional_offset(direction)```
-
-    > Returns a ```Position``` object to the direction. ```direction``` should 
-      be a ```Direction``` object.
-
-    > example: if ```pos = Position(2, 3)```,  
-      ```pos.directional_offset(Direction.North)``` will return 
-      ```Position(2, 2)```
-
-* ```.get_surrounding_cardinals()```
-
-    > Returns a list of the ```Position``` objects that are right adjacent to
-      this position.
-
-    > example: if ```pos = Position(2, 3)```. 
-      ```pos.get_surrounding_cardinals()``` will return
-      ```[Position(2, 2), Position(2, 4), Position(1, 3), Position(3, 3)]```.
-      This function is helpful to find the attackable cells.
-
-# Direction
-
-## attributes
-
-* ```North```
-
-    > (0, -1)
-
-* ```South```
-
-    > (0, 1)
-
-* ```West```
-
-    > (-1, 0)
-
-* ```East```
-
-    > (1, 0)
-
-## methods
-
-* ```get_all_cardinals()```
-
-    > Returns a list of all directions. 
-
 # User
 
-## attributes
+## attributes of ```User```
 
 * ```uid```
 
@@ -318,11 +180,189 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 
     > The tax_level of the user.
 
+* ```tax_amount```
+    
+    > The amount of energy and gold the user will be taxed.
 
 * ```cells```
 
     > A map of ```MapCell``` objects. **key** is ```Position``` object and 
       **value** is ```MapCell``` object.
+
+# GameMap
+
+## attributes of ```GameMap```
+
+* ```width```
+
+    > Width of the game map
+
+* ```height```
+
+    > Height of the game map
+
+## methods of ```GameMap```
+
+* ```game_map[position]```
+
+    > Get the ```MapCell``` object on ```position```. ```position``` should be
+      a ```Position``` object or a ```tuple``` ```(x, y)```.
+
+    > example: ```game_map[(1, 2)]``` will get you the ```MapCell``` object of
+      ```(1, 2)```, which is equivalent to ```game_map[Position(1, 2)]```
+
+# MapCell
+
+This is the object representing a cell. ```cell = game.game_map[Position(3, 4)]``` 
+stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
+
+## attributes of ```MapCell```
+
+* ```position```
+
+    > ```Position``` object representing the position of the cell.
+
+* ```building```
+
+    > An object for the current building. ```Empty``` if nothing on the cell.
+      You should check the ```name``` of the ```building``` to determine what
+      kind of building it is. The possible names are ```empty```, ```home```, 
+      ```energy_well``` and ```gold_mine```.
+    
+    > ```cell.building.name == "home"``` will return a boolean whether the cell
+      has a home on it
+
+* ```gold```
+
+    > The amount of gold the cell produces for each round.
+
+* ```energy```
+
+    > The amount of energy the cell produces for each round.
+
+* ```owner```
+
+    > ```uid``` of the owner of this cell.
+
+* ```attack_cost```
+
+    > The minimum energy you should use to attack this cell
+
+* ```natural_cost```
+
+* ```natural_gold```
+
+* ```natural_energy```
+
+* ```force_field```
+
+* ```is_empty```
+    
+    > Whether the building is empty
+
+* ```is_home```
+    
+    > Whether the building is home 
+
+# Building
+
+## attributes of ```Building```
+
+* ```cost```
+
+    > Cost of the building
+
+* ```name```
+
+    > Name of the building in ```string```
+
+* ```level```
+
+    > Level of the building
+
+* ```is_empty```
+    
+    > Whether the building is empty
+
+* ```is_home```
+    
+    > Whether the building is home 
+
+* ```max_level```
+
+    > Maximum level this building can reach
+
+* ```can_upgrade```
+
+    > If the building can be upgraded
+
+* ```upgrade_gold```
+
+    > Amount of gold to upgrade the building. Invalid if cannot upgrade
+
+* ```upgrade_energy```
+
+    > Amount of energy to upgrade the building. Invalid if cannot upgrade
+
+# Position
+
+## attributes of ```Position```
+
+* ```x```
+
+* ```y```
+
+## methods of ```Position```
+
+* ```.is_valid()```
+
+    > If the position is valid on the map
+
+* ```.directional_offset(direction)```
+
+    > Returns a ```Position``` object to the direction. ```direction``` should 
+      be a ```Direction``` object.
+
+    > example: if ```pos = Position(2, 3)```,  
+      ```pos.directional_offset(Direction.North)``` will return 
+      ```Position(2, 2)```
+
+* ```.get_surrounding_cardinals()```
+
+    > Returns a list of the ```Position``` objects that are right adjacent to
+      this position.
+
+    > example: if ```pos = Position(2, 3)```. 
+      ```pos.get_surrounding_cardinals()``` will return
+      ```[Position(2, 2), Position(2, 4), Position(1, 3), Position(3, 3)]```.
+      This function is helpful to find the attackable cells.
+
+# Direction
+
+## attributes of ```Direction```
+
+* ```North```
+
+    > (0, -1)
+
+* ```South```
+
+    > (0, 1)
+
+* ```West```
+
+    > (-1, 0)
+
+* ```East```
+
+    > (1, 0)
+
+## methods of ```Direction```
+
+* ```get_all_cardinals()```
+
+    > Returns a list of all directions. 
+
 
 # constants
 
@@ -337,3 +377,7 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 * ```BLD_ENERGY_WELL```
 
     > Build character for energy well
+
+* ```BLD_FORTRESS```
+
+    > Build character for fortress

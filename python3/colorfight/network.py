@@ -10,7 +10,7 @@ async def game_info(ws_url, queue, loop = None):
         try:
             async for info in ws:
                 queue.put(json.loads(info))
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.02)
         except Exception as e:
             print(e)
             #break
@@ -27,7 +27,7 @@ async def action(ws_url, queue, resp_queue):
             except Exception as e:
                 pass
 
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(0.02)
 
 class Network(threading.Thread):
     host_url = "ws://localhost:5000/"

@@ -17,19 +17,12 @@ class MapCell:
         self.force_field  = 0
 
     @property
-    def upgrade_cost(self):
-        if self.building.name == "empty" or self.building.level >= GAME_MAX_LEVEL:
-            return (None, None)
-        else:
-            return self.building.cost
+    def is_empty(self):
+        return self.building.is_empty
 
     @property
-    def upgrade_gold_cost(self):
-        return self.upgrade_cost[0]
-
-    @property
-    def upgrade_energy_cost(self):
-        return self.upgrade_cost[1]
+    def is_home(self):
+        return self.building.is_home
 
     def _update_info(self, info):
         for field in info:
