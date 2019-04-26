@@ -60,8 +60,12 @@ class Colorfight:
             info = self.info_queue.get()
         self._update(info)
 
-    def register(self, username, password):
-        self.action_queue.put({'action':'register', 'username':username, 'password':password})
+    def register(self, username, password, join_key = ''):
+        self.action_queue.put({'action': 'register', 
+                'username': username, 
+                'password': password,
+                'join_key': join_key
+        })
         time.sleep(0.01)
         try:
             result = self.action_resp_queue.get(timeout = 2)

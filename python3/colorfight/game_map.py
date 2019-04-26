@@ -6,7 +6,6 @@ import random
 class MapCell:
     def __init__(self, position):
         self.position = position
-        self.is_home  = False
         self.building = Empty()
         self.gold = 0
         self.energy = 0
