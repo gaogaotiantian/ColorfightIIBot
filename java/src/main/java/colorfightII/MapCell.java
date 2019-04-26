@@ -8,6 +8,8 @@ import java.util.Map;
 public class MapCell {
     public Position position;
     public Building building = new Empty();
+    public boolean is_empty = true;
+    public boolean is_home = false;
     public int gold = 0;
     public int energy = 0;
     public int owner = 0;
@@ -34,16 +36,18 @@ public class MapCell {
         natural_gold = ((Long)info.get("natural_gold")).intValue();
         natural_energy = ((Long)info.get("natural_energy")).intValue();
         force_field = ((Long)info.get("force_field")).intValue();
-        building = str_to_build_class((String) ((JSONObject)info.get("building")).get("name"));
-        building.level = ((Long)((JSONObject)info.get("building")).get("level")).intValue();
+        building = letter_to_build_class((String) ((JSONArray)info.get("building")).get(0));
+        building.level = ((Long)((JSONArray)info.get("building")).get(1)).intValue();
         building._update_member();
+        is_empty = building.is_empty;
+        is_home = building.is_home;
     }
 
-    private Building str_to_build_class(String name){
-        if(name.equals("empty")) return new Empty();
-        if(name.equals("home")) return new Home();
-        if(name.equals("energy_well")) return new EnergyWell();
-        if(name.equals("gold_mine")) return new GoldMine();
-        else return new Fortress();
+    private Building letter_to_build_class(String name){
+        if(name.equals("f")) return new Fortress();
+        if(name.equals("h")) return new Home();
+        if(name.equals("e")) return new EnergyWell();
+        if(name.equals("g")) return new GoldMine();
+        else return new Empty();
     }
 }

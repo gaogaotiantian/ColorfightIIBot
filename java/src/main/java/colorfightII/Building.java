@@ -5,8 +5,8 @@ public abstract class Building {
     public Pair cost = new Pair(0,0);
     public String name;
     public int level = 1;
-    public boolean is_empty;
-    public boolean is_home;
+    public boolean is_empty = true;
+    public boolean is_home = false;
     public int max_level = 0;
     public boolean can_upgrade = false;
     public int upgrade_gold = 0;

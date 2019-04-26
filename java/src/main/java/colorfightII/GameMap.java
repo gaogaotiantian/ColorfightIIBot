@@ -23,17 +23,29 @@ public class GameMap {
         return game_map[pos.y][pos.x];
     }
 
-    public void _update_info(JSONArray info){
-        for (Object o:info
+    public void _update_info(JSONObject info){
+        for (Object o:(JSONArray)info.get("data")
              ) {
             JSONArray row = (JSONArray) o;
             for (Object m:row
                  ) {
-                JSONObject cell = (JSONObject) m;
+                JSONObject cell = unpack_cell((JSONArray) info.get("headers"), (JSONArray) m);
                 int x = ((Long)((JSONArray)cell.get("position")).get(0)).intValue();
                 int y = ((Long)((JSONArray)cell.get("position")).get(1)).intValue();
                 game_map[y][x]._update_info(cell);
             }
         }
+    }
+
+    private JSONObject unpack_cell(JSONArray headers, JSONArray cell){
+        JSONObject unpack_cell = new JSONObject();
+        int i = 0;
+        for (Object o:headers
+             ) {
+            String header = (String) o;
+            unpack_cell.put(header, cell.get(i));
+            i++;
+        }
+        return unpack_cell;
     }
 }

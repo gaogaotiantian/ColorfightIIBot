@@ -59,7 +59,7 @@ public class Colorfight {
                 ((Long) ((JSONObject)info.get("info")).get("width")).intValue(),
                 ((Long) ((JSONObject)info.get("info")).get("height")).intValue()
         );
-        game_map._update_info((JSONArray)info.get("game_map"));
+        game_map._update_info((JSONObject) info.get("game_map"));
 
     }
 
@@ -87,7 +87,7 @@ public class Colorfight {
 
     public void update_turn() throws InterruptedException, ParseException {
         JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(info_queue.poll(3, TimeUnit.SECONDS));
+        JSONObject json = (JSONObject) parser.parse(info_queue.take());
         while(!info_queue.isEmpty()){
             json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
         }
@@ -95,7 +95,32 @@ public class Colorfight {
     }
 
     public boolean register(String username, String password) throws InterruptedException, ParseException {
-        clientEndPoint_action.sendMessage("{\"action\":\"register\",\"username\":\""+username+"\",\"password\":\""+password+"\"}");
+        clientEndPoint_action.sendMessage(
+                "{\"action\":\"register\",\"username\":\""+
+                        username+
+                        "\",\"password\":\""+
+                        password+"\",\"join_key\":\"\"}");
+        JSONParser parser = new JSONParser();
+        JSONObject json = (JSONObject) parser.parse(action_queue.poll(2, TimeUnit.SECONDS));
+        if(json.get("uid")==null) {
+            System.out.println(json.get("err_msg"));
+            return false;
+        }
+        else {
+            uid = ((Long) json.get("uid")).intValue();
+        }
+        return true;
+    }
+
+    public boolean register(String username, String password, String join_key) throws InterruptedException, ParseException {
+        clientEndPoint_action.sendMessage(
+                "{\"action\":\"register\",\"username\":\""+
+                        username+
+                        "\",\"password\":\""+
+                        password+"\""+
+                        "\"join_key\":\""+
+                        join_key+"\"}"
+        );
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(action_queue.poll(2, TimeUnit.SECONDS));
         if(json.get("uid")==null) {
