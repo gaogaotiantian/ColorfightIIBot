@@ -81,12 +81,14 @@ The ```Colorfight``` object holds all the useful information for the game.
     > You should use ```game.update_turn()``` after you send the command list 
       to get the latest info from the game.
 
-* ```.register(username, password)```
+* ```.register(username, password, join_key = "")```
 
     > Register to the game with ```username``` and ```password```. Duplicate 
       ```username``` is not allowed. If you already joined the game and somehow
       disconnected. Using the same ```username``` and ```password``` will allow
-      you to continue with previous account. Returns ```True``` if success.
+      you to continue with previous account. ```join_key``` is required if the
+      gameroom is locked, otherwise you do not need to specify the argument. 
+      Returns ```True``` if success.
 
     > This should happen after you connect to the server and before you start
       you game loop.
@@ -203,7 +205,7 @@ The ```Colorfight``` object holds all the useful information for the game.
 
 ## methods of ```GameMap```
 
-* ```game_map[position]```
+* ```game_map[position]``` (```game_map.get_cell(position)``` in Java)
 
     > Get the ```MapCell``` object on ```position```. ```position``` should be
       a ```Position``` object or a ```tuple``` ```(x, y)```.

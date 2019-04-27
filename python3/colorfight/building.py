@@ -85,6 +85,12 @@ def get_building_class(building):
     else:
         return None
 
+def letter_to_build_class(s):
+    for cls in [Home, EnergyWell, GoldMine, Fortress]:
+        if cls.name[0] == s:
+            return cls
+    return Empty
+
 def str_to_build_class(s):
     for cls in [Empty, Home, EnergyWell, GoldMine, Fortress]:
         if cls.name == s:
