@@ -65,12 +65,12 @@ The ```Colorfight``` object holds all the useful information for the game.
 
 ## methods of ```Colorfight```
 
-* ```.connect(url)``` 
+* ```.connect(room)``` 
 
-    > Establish connection to the server. ```url``` is the url of the game room
+    > Establish connection to the server. ```room``` is the name of the game room
       you want to join.
 
-    > You should always connect first. ```game.connect("http://colorfightii.herokuapp.com/gameroom/public")``` is the default way to connect to the default
+    > You should always connect first. ```game.connect(room = "public")``` is the default way to connect to the default
     public room
 
 * ```.update_turn()```
