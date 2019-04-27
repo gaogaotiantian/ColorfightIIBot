@@ -31,10 +31,10 @@ public class Colorfight {
 
     private String parse_url( String url ){
         if ( url.startsWith( "http" ) ) {
-            return url.replaceFirst( "http", "ws" );
+            return url.replaceFirst( "http", "wss" );
         }
         else if ( !url.startsWith( "ws" ) ) {
-            return  "ws://" + url;
+            return  "wss://" + url;
         }
         return url;
     }
@@ -64,10 +64,10 @@ public class Colorfight {
 
     public void connect() throws URISyntaxException {
         clientEndPoint_action = new WebsocketClientEndpoint(
-                new URI( "ws://colorfightii.herokuapp.com/gameroom/public/action_channel" )
+                new URI( "wss://colorfightii.herokuapp.com/gameroom/public/action_channel" )
         );
         clientEndPoint_info = new WebsocketClientEndpoint(
-                new URI( "ws://colorfightii.herokuapp.com/gameroom/public/game_channel" )
+                new URI( "wss://colorfightii.herokuapp.com/gameroom/public/game_channel" )
         );
 
         // add listener
@@ -88,7 +88,7 @@ public class Colorfight {
     }
 
     public void connect( String room ) throws URISyntaxException {
-        String url = "ws://colorfightii.herokuapp.com/gameroom/" + room;
+        String url = "wss://colorfightii.herokuapp.com/gameroom/" + room;
         clientEndPoint_action = new WebsocketClientEndpoint( new URI( url+"/action_channel" ) );
         clientEndPoint_info = new WebsocketClientEndpoint( new URI( url+"/game_channel" ) );
 
