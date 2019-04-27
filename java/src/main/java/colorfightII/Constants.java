@@ -8,7 +8,7 @@ public class Constants {
     public static int GAME_MAX_TURN = 500;
     public static int GAME_MAX_LEVEL = 4;
 
-    public void update_globals(Map info){
+    public void update_globals( Map info ){
         GAME_WIDTH = (int)info.get("width");
         GAME_HEIGHT = (int)info.get("height");
         GAME_MAX_TURN = (int)info.get("max_turn");

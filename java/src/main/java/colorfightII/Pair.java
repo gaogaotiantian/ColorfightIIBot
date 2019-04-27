@@ -9,7 +9,7 @@ public class Pair {
         this.y = y;
     }
 
-    public void assign(Pair other){
+    public void assign( Pair other ){
         this.x = other.x;
         this.y = other.y;
     }

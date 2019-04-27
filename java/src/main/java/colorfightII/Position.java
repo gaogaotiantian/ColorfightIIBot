@@ -17,9 +17,9 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass() != o.getClass() ) return false;
         Position position = (Position) o;
         return x == position.x &&
                 y == position.y;
@@ -31,7 +31,7 @@ public class Position {
         return Objects.hash(x, y);
     }
 
-    public Position add(Position other ){
+    public Position add( Position other ){
         return new Position( this.x + other.x, this.y + other.y );
     }
 
@@ -39,7 +39,7 @@ public class Position {
         return new Position( this.x + other.x, this.y + other.y );
     }
 
-    public void assign( Position other){
+    public void assign( Position other ){
         this.x = other.x;
         this.y = other.y;
     }
@@ -50,8 +50,8 @@ public class Position {
     }
 
     public boolean is_valid(){
-        return (0 <= x) && (x < Constants.GAME_WIDTH) &&
-                (0 <= y) && (y < Constants.GAME_HEIGHT);
+        return ( 0 <= x ) && ( x < Constants.GAME_WIDTH ) &&
+                ( 0 <= y ) && ( y < Constants.GAME_HEIGHT );
     }
 
     public Position directional_offset( Pair direction ){
@@ -61,27 +61,24 @@ public class Position {
     public Position[] _get_all_surrounding_cardinals(){
         Position[] rtn = new Position[4];
         int temp = 0;
-        for (Pair pair:Direction.get_all_cardinals()
-             ) {
-            rtn[temp++] = directional_offset(pair);
+        for ( Pair pair:Direction.get_all_cardinals() ) {
+            rtn[temp++] = directional_offset( pair );
         }
         return rtn;
     }
 
     public Position[] get_surrounding_cardinals(){
         int len = 0;
-        for (Position pos:_get_all_surrounding_cardinals()
-             ) {
-            if(pos.is_valid()){
+        for ( Position pos:_get_all_surrounding_cardinals() ) {
+            if( pos.is_valid() ){
                 len++;
             }
         }
 
         Position[] rtn = new Position[len];
         int temp = 0;
-        for (Position pos:_get_all_surrounding_cardinals()
-                ) {
-            if(pos.is_valid()){
+        for ( Position pos:_get_all_surrounding_cardinals() ) {
+            if ( pos.is_valid() ) {
                 rtn[temp++] = pos;
             }
         }
@@ -89,6 +86,6 @@ public class Position {
     }
 
     public Pair info(){
-        return new Pair(x, y);
+        return new Pair( x, y );
     }
 }
