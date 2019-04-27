@@ -8,8 +8,8 @@ from colorfight.constants import BLD_GOLD_MINE, BLD_ENERGY_WELL, BLD_FORTRESS
 game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
-# join other rooms, you need to change the url to the room.
-game.connect(url = 'http://colorfightii.herokuapp.com/gameroom/public')
+# join other rooms, you need to change the argument
+game.connect(room = 'public')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
