@@ -19,8 +19,8 @@ public class example_ai {
         // This would help you debug your program.
         try {
             // Connect to the server. This will connect to the public room. If you want to
-            // join other rooms, you need to change the url to the room.
-            game.connect();
+            // join other rooms, you need to change the argument.
+            game.connect( "public" );
             String username = "ExampleAI"+( new Random().nextInt(100)+1 );
             String password = "ExampleAI"+( new Random().nextInt(100)+1 );
 
