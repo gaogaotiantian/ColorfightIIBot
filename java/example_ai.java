@@ -20,7 +20,7 @@ public class example_ai {
         try {
             // Connect to the server. This will connect to the public room. If you want to
             // join other rooms, you need to change the url to the room.
-            game.connect( "http://colorfightii.herokuapp.com/gameroom/public" );
+            game.connect();
             String username = "ExampleAI"+( new Random().nextInt(100)+1 );
             String password = "ExampleAI"+( new Random().nextInt(100)+1 );
 

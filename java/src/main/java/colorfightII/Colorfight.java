@@ -62,7 +62,54 @@ public class Colorfight {
 
     }
 
-    public void connect( String url ) throws URISyntaxException {
+    public void connect() throws URISyntaxException {
+        clientEndPoint_action = new WebsocketClientEndpoint(
+                new URI( "ws://colorfightii.herokuapp.com/gameroom/public/action_channel" )
+        );
+        clientEndPoint_info = new WebsocketClientEndpoint(
+                new URI( "ws://colorfightii.herokuapp.com/gameroom/public/game_channel" )
+        );
+
+        // add listener
+        clientEndPoint_action.addMessageHandler( new WebsocketClientEndpoint.MessageHandler() {
+            public void handleMessage( String message ) {
+                //System.out.println(message);
+                action_queue.add( message );
+            }
+        } );
+
+        // add listener
+        clientEndPoint_info.addMessageHandler( new WebsocketClientEndpoint.MessageHandler() {
+            public void handleMessage( String message ) {
+                //System.out.println(message);
+                info_queue.add( message );
+            }
+        } );
+    }
+
+    public void connect( String room ) throws URISyntaxException {
+        String url = "ws://colorfightii.herokuapp.com/gameroom/" + room;
+        clientEndPoint_action = new WebsocketClientEndpoint( new URI( url+"/action_channel" ) );
+        clientEndPoint_info = new WebsocketClientEndpoint( new URI( url+"/game_channel" ) );
+
+        // add listener
+        clientEndPoint_action.addMessageHandler( new WebsocketClientEndpoint.MessageHandler() {
+            public void handleMessage( String message ) {
+                //System.out.println(message);
+                action_queue.add( message );
+            }
+        } );
+
+        // add listener
+        clientEndPoint_info.addMessageHandler( new WebsocketClientEndpoint.MessageHandler() {
+            public void handleMessage( String message ) {
+                //System.out.println(message);
+                info_queue.add( message );
+            }
+        } );
+    }
+
+    public void connect_url( String url ) throws URISyntaxException {
         url = parse_url(url);
         clientEndPoint_action = new WebsocketClientEndpoint( new URI( url+"/action_channel" ) );
         clientEndPoint_info = new WebsocketClientEndpoint( new URI( url+"/game_channel" ) );
