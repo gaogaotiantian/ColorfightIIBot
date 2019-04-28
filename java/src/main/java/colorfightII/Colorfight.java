@@ -51,7 +51,7 @@ public class Colorfight {
         );
         game_map._update_info( (JSONObject) info.get("game_map") );
 	
-	for ( Object o:( (Map)info.get("users") ).values() ) {
+        for ( Object o:( (Map)info.get("users") ).values() ) {
             JSONObject user =  (JSONObject) o;
             User temp = new User();
             temp._update_info( user );
