@@ -56,8 +56,11 @@ class Colorfight:
 
     def update_turn(self):
         info = self.info_queue.get()
-        while not self.info_queue.empty():
-            info = self.info_queue.get()
+        while True:
+            while not self.info_queue.empty():
+                info = self.info_queue.get()
+            if info["turn"] != self.turn:
+                break
         self._update(info)
 
     def register(self, username, password, join_key = ''):
