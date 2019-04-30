@@ -45,7 +45,7 @@ public class Colorfight {
         max_turn = ( (Long) ( (JSONObject)info.get("info") ).get("max_turn") ).intValue();
         round_time = ( (Long) ( (JSONObject) info.get("info") ).get("round_time") ).intValue();
         
-	game_map = new GameMap(
+	    game_map = new GameMap(
                 ( (Long) ( (JSONObject)info.get("info") ).get("width") ).intValue(),
                 ( (Long) ( (JSONObject)info.get("info") ).get("height") ).intValue()
         );
@@ -135,8 +135,13 @@ public class Colorfight {
     public void update_turn() throws InterruptedException, ParseException {
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse( info_queue.take() );
-        while ( !info_queue.isEmpty() ) {
-            json = (JSONObject) parser.parse( info_queue.poll( 0, TimeUnit.SECONDS ) );
+        while ( true ) {
+            while (!info_queue.isEmpty()) {
+                json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
+            }
+            if ( ( (Long) json.get("turn") ).intValue() != turn ) {
+                break;
+            }
         }
         _update( json );
     }
