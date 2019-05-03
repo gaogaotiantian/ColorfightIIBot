@@ -178,10 +178,6 @@ The ```Colorfight``` object holds all the useful information for the game.
     > The tech_level of the user. This limits the highest level of building
       the user can upgrade to.
 
-* ```tax_level```
-
-    > The tax_level of the user.
-
 * ```tax_amount```
     
     > The amount of energy and gold the user will be taxed.
