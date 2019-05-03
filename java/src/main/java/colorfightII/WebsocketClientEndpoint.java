@@ -39,7 +39,6 @@ public class WebsocketClientEndpoint {
             public void run() {
                 try {
                     myTask();
-                    System.out.println( "sent ping" );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
