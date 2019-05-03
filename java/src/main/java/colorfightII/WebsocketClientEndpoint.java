@@ -29,7 +29,7 @@ public class WebsocketClientEndpoint {
      * @param userSession the userSession which is opened.
      */
     @OnOpen
-    public void onOpen( Session userSession ) throws IOException {
+    public void onOpen( Session userSession ) {
         System.out.println( "opening websocket" );
         this.userSession = userSession;
         this.userSession.setMaxIdleTimeout(-1);
