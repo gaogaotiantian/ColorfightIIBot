@@ -1,14 +1,12 @@
 package colorfightII;
 
+import javax.websocket.*;
+import java.io.IOException;
 import java.net.URI;
-import javax.websocket.ClientEndpoint;
-import javax.websocket.CloseReason;
-import javax.websocket.ContainerProvider;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
+import java.nio.ByteBuffer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @ClientEndpoint
 public class WebsocketClientEndpoint {
@@ -31,9 +29,27 @@ public class WebsocketClientEndpoint {
      * @param userSession the userSession which is opened.
      */
     @OnOpen
-    public void onOpen( Session userSession ) {
+    public void onOpen( Session userSession ) throws IOException {
         System.out.println( "opening websocket" );
         this.userSession = userSession;
+        this.userSession.setMaxIdleTimeout(-1);
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    myTask();
+                    System.out.println( "sent ping" );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 30, 30, TimeUnit.SECONDS);
+
+    }
+
+    private void myTask() throws IOException {
+        this.userSession.getAsyncRemote().sendPing( ByteBuffer.wrap( "ping server".getBytes() ) );
     }
 
     /**
