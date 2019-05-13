@@ -26,7 +26,7 @@ class Colorfight:
         self.action_queue = queue.Queue()
         self.action_resp_queue = queue.Queue()
         if url == None:
-            url = 'https://colorfightai.com/gameroom/' + room
+            url = 'https://www.colorfightai.com/gameroom/' + room
         self.nw = Network(self.info_queue, self.action_queue, self.action_resp_queue, url)
         self.nw.setDaemon(True)
         self.nw.start()
