@@ -3,6 +3,7 @@ package colorfightII;
 import java.util.Map;
 
 public class Constants {
+    public static int GAME_VERSION = 2;
     public static int GAME_WIDTH = 30;
     public static int GAME_HEIGHT = 30;
     public static int GAME_MAX_TURN = 500;
@@ -22,4 +23,6 @@ public class Constants {
     public static final char BLD_GOLD_MINE = 'g';
     public static final char BLD_ENERGY_WELL = 'e';
     public static final char BLD_FORTRESS = 'f';
+
+    public static Pair BUILDING_COST = new Pair(100, 0);
 }

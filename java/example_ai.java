@@ -100,7 +100,7 @@ public class example_ai {
                     }
 
                     // Build a random building if we have enough gold
-                    if ( ( cell.owner==me.uid ) && ( cell.building.is_empty ) && ( me.gold >= 100 ) ) {
+                    if ( ( cell.owner==me.uid ) && ( cell.building.is_empty ) && ( me.gold >= Constants.BUILDING_COST.getX() ) ) {
                         char buildings[] = {
                                 Constants.BLD_FORTRESS,
                                 Constants.BLD_GOLD_MINE,

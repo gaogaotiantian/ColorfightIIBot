@@ -17,7 +17,7 @@ public class Colorfight {
     public int uid = 0;
     public int turn = 0;
     public int max_turn = 0;
-    public int round_time = 0;
+    public Double round_time = 0.0;
     public User me = null;
     public Map<Integer, User> users = new HashMap<>();
     public Map<Integer, Object> error = new HashMap<>();
@@ -42,7 +42,7 @@ public class Colorfight {
         turn = ( (Long) info.get("turn") ).intValue();
         error = (Map<Integer, Object>) info.get("error");
         max_turn = ( (Long) ( (JSONObject)info.get("info") ).get("max_turn") ).intValue();
-        round_time = ( (Long) ( (JSONObject) info.get("info") ).get("round_time") ).intValue();
+        round_time = ( (Long) ( (JSONObject) info.get("info") ).get("round_time") ).doubleValue();
 
         game_map = new GameMap(
                 ( (Long) ( (JSONObject)info.get("info") ).get("width") ).intValue(),
@@ -139,6 +139,9 @@ public class Colorfight {
                 json = (JSONObject) parser.parse(info_queue.poll(0, TimeUnit.SECONDS));
             }
             if ( ( (Long) json.get("turn") ).intValue() != turn ) {
+                if ( ( (Long) ( (JSONObject) json.get("info") ).get("game_version")).intValue() != Constants.GAME_VERSION) {
+                    System.out.println("Your bot is out of date, please update your bot by git pull or download from the website");
+                }
                 break;
             }
         }
