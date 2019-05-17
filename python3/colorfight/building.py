@@ -1,4 +1,5 @@
 from .constants import BLD_ENERGY_WELL, BLD_GOLD_MINE, BLD_FORTRESS
+from .constants import BUILDING_COST, BUILDING_UPGRADE_COST, HOME_COST, HOME_UPGRADE_COST
 
 class BaseBuilding:
     cost = 0
@@ -54,23 +55,23 @@ class Empty(BaseBuilding):
 
 class Home(BaseBuilding):
     name = 'home'
-    cost = (1000, 0)
-    upgrade_cost = [(1000, 1000), (2000, 2000)]
+    cost = HOME_COST
+    upgrade_cost = HOME_UPGRADE_COST
 
 class EnergyWell(BaseBuilding):
     name = "energy_well"
-    cost = (100, 0)
-    upgrade_cost = [(200, 0), (400, 0)]
+    cost = BUILDING_COST
+    upgrade_cost = BUILDING_UPGRADE_COST
 
 class GoldMine(BaseBuilding):
     name = "gold_mine"
-    cost = (100, 0)
-    upgrade_cost = [(200, 0), (400, 0)]
+    cost = BUILDING_COST
+    upgrade_cost = BUILDING_UPGRADE_COST
 
 class Fortress(BaseBuilding):
     name = "fortress"
-    cost = (100, 0)
-    upgrade_cost = [(200, 0), (400, 0)]
+    cost = BUILDING_COST
+    upgrade_cost = BUILDING_UPGRADE_COST
 
 def get_building_class(building):
     '''

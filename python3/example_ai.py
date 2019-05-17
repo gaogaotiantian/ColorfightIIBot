@@ -1,7 +1,7 @@
 from colorfight import Colorfight
 import time
 import random
-from colorfight.constants import BLD_GOLD_MINE, BLD_ENERGY_WELL, BLD_FORTRESS
+from colorfight.constants import BLD_GOLD_MINE, BLD_ENERGY_WELL, BLD_FORTRESS, BUILDING_COST
 
 # Create a Colorfight Instance. This will be the object that you interact
 # with.
@@ -76,7 +76,7 @@ if game.register(username = 'ExampleAI' + str(random.randint(1, 100)), \
                 me.energy -= cell.building.upgrade_energy
                 
             # Build a random building if we have enough gold
-            if cell.owner == me.uid and cell.building.is_empty and me.gold >= 100:
+            if cell.owner == me.uid and cell.building.is_empty and me.gold >= BUILDING_COST[0]:
                 building = random.choice([BLD_FORTRESS, BLD_GOLD_MINE, BLD_ENERGY_WELL])
                 cmd_list.append(game.build(cell.position, building))
                 print("We build {} on ({}, {})".format(building, cell.position.x, cell.position.y))

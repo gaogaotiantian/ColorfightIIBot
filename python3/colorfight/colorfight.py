@@ -5,7 +5,7 @@ from .game_map import GameMap
 from .user import User
 from .position import Position
 from .network import Network
-from .constants import update_globals, CMD_ATTACK, CMD_BUILD, CMD_UPGRADE
+from .constants import update_globals, CMD_ATTACK, CMD_BUILD, CMD_UPGRADE, GAME_VERSION
 
 class Colorfight:
     def __init__(self):
@@ -62,7 +62,10 @@ class Colorfight:
             while not self.info_queue.empty():
                 info = self.info_queue.get()
             if info["turn"] != self.turn:
+                if info['info']['game_version'] != GAME_VERSION:
+                    print("Please update your bot. You can do git pull or download from the website.")
                 break
+                
         self._update(info)
 
     def register(self, username, password, join_key = ''):
