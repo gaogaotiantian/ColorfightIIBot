@@ -30,7 +30,14 @@ if game.register(username = 'ExampleAI' + str(random.randint(1, 100)), \
         # server. This will halt the program until it receives the updated
         # information. 
         # After update_turn(), game object will be updated.   
+        last_turn = game.turn
         game.update_turn()
+
+        # Turn number does not go back. So if it is going back, that means
+        # a new game. You can add a infinite loop to continuously register
+        # to the latest game and play.
+        if game.turn < last_turn:
+            break
 
         # Check if you exist in the game. If not, wait for the next round.
         # You may not appear immediately after you join. But you should be 
