@@ -44,11 +44,19 @@ public class example_ai {
                 cmd_list.clear();
                 my_attack_list.clear();
 
+                int last_turn = game.turn;
+
                 // update_turn() is required to get the latest information from the
                 // server. This will halt the program until it receives the updated
                 // information.
                 // After update_turn(), game object will be updated.
                 game.update_turn();
+
+                // Time does not go back. If it does, it means there's a new game.
+                // Potentially you can add a infinite loop to take usage of this
+                // to run your bot infinitely
+                if game.turn < last_turn:
+                    break
 
                 // Check if you exist in the game. If not, wait for the next round.
                 // You may not appear immediately after you join. But you should be
