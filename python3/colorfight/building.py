@@ -1,5 +1,5 @@
 from .constants import BLD_ENERGY_WELL, BLD_GOLD_MINE, BLD_FORTRESS
-from .constants import BUILDING_COST, BUILDING_UPGRADE_COST, HOME_COST, HOME_UPGRADE_COST
+from .constants import BUILDING_COST, BUILDING_UPGRADE_COST, HOME_COST, HOME_UPGRADE_COST, DESTROY_BONUS
 
 class BaseBuilding:
     cost = 0
@@ -46,6 +46,18 @@ class BaseBuilding:
         if self.can_upgrade:
             return self.upgrade_cost[self.level - 1][1]
         return None
+
+    @property
+    def destroy_gold(self):
+        if self.name == 'gold_mine':
+            return DESTROY_BONUS[self.level - 1]
+        return 0
+
+    @property
+    def destroy_forcefield(self):
+        if self.name == 'energy_well':
+            return DESTROY_BONUS[self.level - 1]
+        return 0
 
     def info(self):
         return self.name

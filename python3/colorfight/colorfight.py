@@ -1,5 +1,7 @@
 import time
 import queue
+import json
+import urllib.request
 
 from .game_map import GameMap
 from .user import User
@@ -9,13 +11,18 @@ from .constants import update_globals, CMD_ATTACK, CMD_BUILD, CMD_UPGRADE, GAME_
 
 class Colorfight:
     def __init__(self):
+        self._reset()
+
+    def _reset(self):
         self.uid = 0
         self.turn = 0
         self.max_turn = 0
         self.round_time = 0
+        self.nw = None
         self.me = None
         self.users = {}
         self.error = {}
+        self.game_id = 0
         self.game_map = None
         self.info_queue = None
         self.action_queue = None
@@ -30,6 +37,14 @@ class Colorfight:
         self.nw = Network(self.info_queue, self.action_queue, self.action_resp_queue, url)
         self.nw.setDaemon(True)
         self.nw.start()
+
+    def disconnect(self):
+        print("disconnect!")
+        self.nw.disconnect()
+        del self.info_queue
+        del self.action_queue
+        del self.action_resp_queue
+        self._reset()
 
     def _update(self, info):
         self.turn = info['turn']
@@ -56,17 +71,31 @@ class Colorfight:
             setattr(self, field, info[field])
         update_globals(info)
 
-    def update_turn(self):
+    def update_turn(self, timeout = 0):
         info = self.info_queue.get()
+        timer = time.time()
         while True:
             while not self.info_queue.empty():
                 info = self.info_queue.get()
+            
+            if self.game_id == 0:
+                self.game_id = info["info"]["game_id"]
+
+            if timeout > 0 and time.time() - timer > timeout:
+                return False
+
+            if info["info"]["game_id"] != self.game_id:
+                return False
+
             if info["turn"] != self.turn:
                 if info['info']['game_version'] != GAME_VERSION:
                     print("Please update your bot. You can do git pull or download from the website.")
                 break
+            
+            time.sleep(0.005)
                 
         self._update(info)
+        return True
 
     def register(self, username, password, join_key = ''):
         self.action_queue.put({'action': 'register', 
@@ -118,4 +147,7 @@ class Colorfight:
         result = self.action_resp_queue.get()
         return result
 
-
+    def get_gameroom_list(self, host = 'https://www.colorfightai.com/'):
+        url = host + '/get_gameroom_list'
+        with urllib.request.urlopen(url = url) as f:
+            return json.loads(f.read().decode('utf-8'))

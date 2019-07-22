@@ -65,6 +65,13 @@ The ```Colorfight``` object holds all the useful information for the game.
 
 ## methods of ```Colorfight```
 
+* ```.get_gameroom_list()``` 
+
+    > return a list of data of gameroom on the server
+
+    > You can use this in the script to choose gameroom ```rooms = game.get_gameroom_list()```
+      ```rank_room = [room for room in rooms if room["rank"]]```
+
 * ```.connect(room)``` 
 
     > Establish connection to the server. ```room``` is the name of the game room
@@ -301,6 +308,14 @@ stores a ```MapCell``` object of ```(3, 4)``` in ```cell```
 * ```upgrade_energy```
 
     > Amount of energy to upgrade the building. Invalid if cannot upgrade
+
+* ```destroy_gold```
+
+    > Amount of gold for the attacker if the building is destroyed. 
+
+* ```destroy_forcefield```
+
+    > Amount of forcefield the cell will have if the building is destroyed
 
 # Position
 
