@@ -2,6 +2,7 @@ import time
 import queue
 import json
 import urllib.request
+import urllib.parse
 
 from .game_map import GameMap
 from .user import User
@@ -148,6 +149,12 @@ class Colorfight:
         return result
 
     def get_gameroom_list(self, host = 'https://www.colorfightai.com/'):
-        url = host + '/get_gameroom_list'
-        with urllib.request.urlopen(url = url) as f:
+        url = urllib.parse.urljoin(host, 'get_gameroom_list')
+        # Stupid Cloudflare Checks for Scrapers. I have to disguise my own
+        # request to pass it!
+        headers = {
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.90 Safari/537.36"
+        }
+        request = urllib.request.Request(url = url, headers = headers)
+        with urllib.request.urlopen(request) as f:
             return json.loads(f.read().decode('utf-8'))
