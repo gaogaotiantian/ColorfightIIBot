@@ -1,6 +1,7 @@
 import colorfightII.*;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,15 +15,64 @@ public class example_ai {
         // Create a Colorfight Instance. This will be the object that you interact
         // with.
         Colorfight game = new Colorfight();
+        /*
+        try {
+            JSONArray room_list = game.get_gameroom_list();
+            ArrayList<JSONObject> rank_rooms = new ArrayList();
 
+            // find all available rank rooms.
+            for ( Object o : room_list ) {
+                JSONObject room = (JSONObject) o;
+                if ( ((Boolean) room.get( "rank" )) && ( (Long) room.get( "player_number" ) < (Long) room.get( "max_player" ) ) ) {
+                    rank_rooms.add( room );
+                }
+            }
+
+            // choose a random available rank room.
+            String room = (String) rank_rooms.get( new Random().nextInt(rank_rooms.size()) ).get("name");
+            */
+
+            //========================================================================================================
+
+            // delete the line below and uncomment the try-catch block if you want to select a random rank room.
+            String room = "public";
+
+            //========================================================================================================
+
+            // paly game once
+            play_game(game, room, "exampleAI", "123123123");
+
+            //========================================================================================================
+
+            // run my bot forever
+            while ( true ) {
+                try {
+                    play_game(game, room, "exampleAI", "123123123");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //========================================================================================================
+            /*
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        */
+    }
+
+    private static void play_game(Colorfight game, String room, String username, String password) {
         // Include all the code in a try-catch to handle exceptions.
         // This would help you debug your program.
         try {
             // Connect to the server. This will connect to the public room. If you want to
             // join other rooms, you need to change the argument.
-            game.connect( "public" );
-            String username = "ExampleAI"+( new Random().nextInt(100)+1 );
-            String password = "ExampleAI"+( new Random().nextInt(100)+1 );
+
+            game.connect( room );
+            //String username = "ExampleAI"+( new Random().nextInt(100)+1 );
+            //String password = "ExampleAI"+( new Random().nextInt(100)+1 );
 
             // game.register should return True if succeed.
             // As no duplicate usernames are allowed, a random integer string is appended
@@ -31,7 +81,9 @@ public class example_ai {
             // You need to set a password. For the example AI, a random password is used
             // as the password. You should change it to something that will not change
             // between runs so you can continue the game if disconnected.
-            if ( !game.register( username, password ) ) return;
+            if ( !game.register( username, password ) ) {
+                return;
+            }
 
             // The command list we will send to the server
             ArrayList<String> cmd_list = new ArrayList<>();
@@ -44,19 +96,13 @@ public class example_ai {
                 cmd_list.clear();
                 my_attack_list.clear();
 
-                int last_turn = game.turn;
-
                 // update_turn() is required to get the latest information from the
                 // server. This will halt the program until it receives the updated
                 // information.
                 // After update_turn(), game object will be updated.
-                game.update_turn();
-
-                // Time does not go back. If it does, it means there's a new game.
-                // Potentially you can add a infinite loop to take usage of this
-                // to run your bot infinitely
-                if game.turn < last_turn:
-                    break
+                if ( !game.update_turn() ) {
+                    break;
+                }
 
                 // Check if you exist in the game. If not, wait for the next round.
                 // You may not appear immediately after you join. But you should be
@@ -126,11 +172,14 @@ public class example_ai {
                 // and print out the message from server
                 System.out.println( game.send_cmd( cmd_list ).toString() );
             }
+            game.disconnect();
         } catch ( URISyntaxException e ) {
             e.printStackTrace();
         } catch ( InterruptedException e ) {
             e.printStackTrace();
         } catch ( ParseException e ) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
